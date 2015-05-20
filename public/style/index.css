@@ -1,0 +1,10 @@
+#main-canvas {
+    display: block;
+    margin: auto;
+    border: double;
+}
+
+h4 {
+    display: block;
+    margin: auto;
+}
