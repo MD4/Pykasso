@@ -3,6 +3,8 @@ var RtmClient = function (socket) {
     this.socket = socket;
     this.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
+    socket.emit('color', this.color);
+
     socket.on('choose', this.onChoose.bind(this));
     socket.on('disconnect', this.onDisconnect.bind(this));
     socket.on('draw', this.onDraw.bind(this));
