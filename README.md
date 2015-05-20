@@ -1,2 +1,2 @@
 # Pykasso
-Shitty collaborative drawing
+A 4-hours shitty collaborative drawing
