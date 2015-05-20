@@ -3,7 +3,7 @@
  */
 
 var redis = require("redis");
-var client = redis.createClient(6379, '192.168.56.101', {});
+var client = redis.createClient();
 client.on("error", function (err) {
     console.log("Error " + err);
 });

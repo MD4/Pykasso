@@ -12,7 +12,6 @@
         },
 
         onReceiveDraw: function(callback) {
-            console.log('bind');
             this.socket.on('draw', callback);
         },
 

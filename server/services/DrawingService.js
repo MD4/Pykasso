@@ -56,7 +56,7 @@ exports.addToDrawing = function addToDrawing(name, data) {
 
 exports.getDrawData = function getDrawData(name, callback) {
     exports.getId(name, function(err, uid) {
-        redis.zrange("drawing"+uid+"/data", "+inf", "-inf", function(err, res) {
+        redis.zrevrangebyscore("drawing"+uid+"/data", "+inf", "-inf", function(err, res) {
             callback(err, res);
         });
     });
