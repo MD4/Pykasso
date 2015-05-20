@@ -1,12 +1,11 @@
-// namespaces
-Pykasso = {
-    services: {}
-};
-
 Pykasso.app = {
     start: function(){
         var RtmService = Pykasso.services.RtmService;
         console.log(Pykasso);
-        RtmService.test();
+        RtmService.choose("d1");
+
+        RtmService.onReceiveDraw(function(draw) {
+            console.log(draw);
+        });
     }
 };
