@@ -3,8 +3,8 @@ var DrawingService = require('./services/DrawingService');
 var RtmClient = function (socket) {
     console.log('User connected');
     this.socket = socket;
-    this.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
+    this.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
     socket.emit('color', this.color);
 
     socket.on('choose', this.onChoose.bind(this));
@@ -25,9 +25,9 @@ RtmClient.prototype.onDisconnect = function () {
     console.log('User disconnected');
 };
 
-RtmClient.prototype.onDraw = function (draw) {
-    DrawingService.addToDrawing(this.drawingId, draw);
-    this.socket.broadcast.to(this.drawingId).emit('draw', draw, this.color);
+RtmClient.prototype.onDraw = function (draw, color) {
+    DrawingService.addToDrawing(this.drawingId, draw, color);
+    this.socket.broadcast.to(this.drawingId).emit('draw', draw, color);
 };
 
 module.exports = RtmClient;
