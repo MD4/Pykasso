@@ -54,9 +54,11 @@ exports.addToDrawing = function addToDrawing(name, data) {
     });
 };
 
-exports.getDrawData = function getDrawData(name) {
+exports.getDrawData = function getDrawData(name, callback) {
     exports.getId(name, function(err, uid) {
-        redis.zget("drawing"+uid+"/data", "+inf", "-inf");
+        redis.zget("drawing"+uid+"/data", "+inf", "-inf", function(err, res) {
+            callback(err, res);
+        });
     });
 };
 
