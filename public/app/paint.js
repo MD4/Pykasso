@@ -1,89 +1,95 @@
-$(document).ready(function () {
+(function () {
 
-    // Variables :
-    var color = "#000";
-    var painting = false;
-    var started = false;
-    var width_brush = 5;
-    var canvas = $("#main-canvas");
-    var cursorX, cursorY;
-    var restoreCanvasArray = [];
-    var restoreCanvasIndex = 0;
+    Pykasso.painter =
+    {
+        fromPoints: function (points) {
+            var startedTmp = false;
+            var context = $("#main-canvas")[0].getContext('2d');
+            points.forEach(function (point) {
+                if (!startedTmp) {
+                    // Je place mon curseur pour la première fois :
+                    context.beginPath();
+                    context.moveTo(point.x, point.y);
+                    startedTmp = true;
+                }
+                // Sinon je dessine
+                else {
+                    context.lineTo(point.x, point.y);
+                    context.strokeStyle = Pykasso.painter.color;
+                    context.lineWidth = Pykasso.painter.width_brush;
+                    context.stroke();
+                }
+            });
+        },
 
-    var context = canvas[0].getContext('2d');
+        color: "#000",
+        width_brush: 5,
 
-    var points = [];
+        init: function () {
 
-    // Trait arrondi :
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
+            // Variables :
+            var painting = false;
+            var started = false;
+            var canvas = $("#main-canvas");
+            var context = canvas[0].getContext('2d');
+            var cursorX, cursorY;
 
-    // Click souris enfoncé sur le canvas, je dessine :
-    canvas.mousedown(function (e) {
-        painting = true;
+            var points = [];
 
-        // Coordonnées de la souris :
-        cursorX = (e.pageX - this.offsetLeft);
-        cursorY = (e.pageY - this.offsetTop);
-    });
+            // Trait arrondi :
+            context.lineJoin = 'round';
+            context.lineCap = 'round';
 
-    // Relachement du Click sur tout le document, j'arrête de dessiner :
-    $(this).mouseup(function () {
-        painting = false;
-        started = false;
-        console.log(points);
-        points = [];
-    });
+            // Click souris enfoncé sur le canvas, je dessine :
+            canvas.mousedown(function (e) {
+                console.log("down");
+                painting = true;
 
-    // Mouvement de la souris sur le canvas :
-    canvas.mousemove(function (e) {
-        // Si je suis en train de dessiner (click souris enfoncé) :
-        if (painting) {
-            // Set Coordonnées de la souris :
-            cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = décalage du curseur
-            cursorY = (e.pageY - this.offsetTop) - 10;
+                // Coordonnées de la souris :
+                cursorX = (e.pageX - this.offsetLeft);
+                cursorY = (e.pageY - this.offsetTop);
+            });
 
-            // Dessine une ligne :
-            drawLine();
-        }
-    });
+            // Relachement du Click sur tout le document, j'arrête de dessiner :
+            $(document).mouseup(function () {
+                console.log("up");
+                painting = false;
+                started = false;
+                Pykasso.services.RtmService.draw(points);
+                points = [];
+            });
 
-    // Fonction qui dessine une ligne :
-    function drawLine() {
-        // Si c'est le début, j'initialise
-        if (!started) {
-            // Je place mon curseur pour la première fois :
-            context.beginPath();
-            context.moveTo(cursorX, cursorY);
-            started = true;
-        }
-        // Sinon je dessine
-        else {
-            context.lineTo(cursorX, cursorY);
-            context.strokeStyle = color;
-            context.lineWidth = width_brush;
-            context.stroke();
-        }
-        points.push({x: cursorX, y: cursorY});
-    }
+            // Mouvement de la souris sur le canvas :
+            canvas.mousemove(function (e) {
+                // Si je suis en train de dessiner (click souris enfoncé) :
+                if (painting) {
+                    // Set Coordonnées de la souris :
+                    cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = décalage du curseur
+                    cursorY = (e.pageY - this.offsetTop) - 10;
 
-    function fromPoints(points) {
-        var startedTmp = false;
-        points.forEach(function (point) {
-            if (!startedTmp) {
-                // Je place mon curseur pour la première fois :
-                context.beginPath();
-                context.moveTo(point.x, point.y);
-                startedTmp = true;
+                    // Dessine une ligne :
+                    drawLine();
+                }
+            });
+
+            // Fonction qui dessine une ligne :
+            function drawLine() {
+                // Si c'est le début, j'initialise
+                if (!started) {
+                    // Je place mon curseur pour la première fois :
+                    context.beginPath();
+                    context.moveTo(cursorX, cursorY);
+                    started = true;
+                }
+                // Sinon je dessine
+                else {
+                    context.lineTo(cursorX, cursorY);
+                    context.strokeStyle = Pykasso.painter.color;
+                    context.lineWidth = Pykasso.painter.width_brush;
+                    context.stroke();
+                }
+                points.push({x: cursorX, y: cursorY});
             }
-            // Sinon je dessine
-            else {
-                context.lineTo(point.x, point.y);
-                context.strokeStyle = color;
-                context.lineWidth = width_brush;
-                context.stroke();
-            }
-        });
-    }
-
-});
+        }
+    };
+})();

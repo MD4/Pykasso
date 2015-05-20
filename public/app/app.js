@@ -1,11 +1,12 @@
 Pykasso.app = {
     start: function(){
         var RtmService = Pykasso.services.RtmService;
-        console.log(Pykasso);
         RtmService.choose("d1");
 
+        $(document).ready(Pykasso.painter.init());
+
         RtmService.onReceiveDraw(function(draw) {
-            console.log(draw);
+            Pykasso.painter.fromPoints(draw);
         });
     }
 };
