@@ -16,7 +16,6 @@ exports.create = function create(name) {
     var uid = uuid.v1();
     redis.hset("drawings", name, uid, redis.print);
     redis.hset("drawing"+uid+"/info", "name", name, redis.print);
-    redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify([]), redis.print);
 };
 
 /**
@@ -55,12 +54,13 @@ exports.addToDrawing = function addToDrawing(name, data) {
     });
 };
 
-/*exports.getDrawData = function getDrawData(name) {
-    var client = redis.createClient();
+exports.getDrawData = function getDrawData(name, callback) {
     exports.getId(name, function(err, uid) {
-        client.zget("drawing"+uid+"/data");
+        redis.zrange("drawing"+uid+"/data", "+inf", "-inf", function(err, res) {
+            callback(err, res);
+        });
     });
-};*/
+};
 
 module.exports = exports;
 
