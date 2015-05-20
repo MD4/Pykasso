@@ -2,6 +2,7 @@
     display: block;
     margin: auto;
     border: double;
+    cursor: crosshair
 }
 
 h4 {

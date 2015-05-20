@@ -12,6 +12,8 @@ $(document).ready(function () {
 
     var context = canvas[0].getContext('2d');
 
+    var points = [];
+
     // Trait arrondi :
     context.lineJoin = 'round';
     context.lineCap = 'round';
@@ -29,6 +31,8 @@ $(document).ready(function () {
     $(this).mouseup(function () {
         painting = false;
         started = false;
+        console.log(points);
+        points = [];
     });
 
     // Mouvement de la souris sur le canvas :
@@ -60,6 +64,26 @@ $(document).ready(function () {
             context.lineWidth = width_brush;
             context.stroke();
         }
+        points.push({x: cursorX, y: cursorY});
+    }
+
+    function fromPoints(points) {
+        var startedTmp = false;
+        points.forEach(function (point) {
+            if (!startedTmp) {
+                // Je place mon curseur pour la première fois :
+                context.beginPath();
+                context.moveTo(point.x, point.y);
+                startedTmp = true;
+            }
+            // Sinon je dessine
+            else {
+                context.lineTo(point.x, point.y);
+                context.strokeStyle = color;
+                context.lineWidth = width_brush;
+                context.stroke();
+            }
+        });
     }
 
 });
