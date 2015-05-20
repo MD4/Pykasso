@@ -3,8 +3,9 @@
  */
 
 
-var redis = require("redis");
+var redis = require("./DBService");
 var uuid = require('node-uuid');
+var async = require("async");
 var exports = {};
 
 /**
@@ -13,15 +14,9 @@ var exports = {};
  */
 exports.create = function create(name) {
     var uid = uuid.v1();
-    console.log("test");
-    var client = redis.createClient(6379, '192.168.56.101', {});
-    client.on("error", function (err) {
-        console.log("Error " + err);
-    });
-    client.hset("drawings", name, uid, redis.print);
-    client.hset("drawing"+uid+"/info", "name", name, redis.print);
-    client.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify([]));
-    client.end();
+    redis.hset("drawings", name, uid, redis.print);
+    redis.hset("drawing"+uid+"/info", "name", name, redis.print);
+    redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify([]), redis.print);
 };
 
 /**
@@ -29,15 +24,13 @@ exports.create = function create(name) {
  * @param name
  */
 exports.delete = function remove(name) {
-    var client = redis.createClient(6379, '192.168.56.101', {});
     exports.getId(name, function(err, uid) {
-        var multi = client.multi();
+        var multi = redis.multi();
         multi.hdel("drawings", name);
         multi.del("drawing"+uid+"/info");
         multi.del("drawing"+uid+"/data");
         multi.exec();
     });
-    client.end();
 };
 
 /**
@@ -46,11 +39,9 @@ exports.delete = function remove(name) {
  * @param callback
  */
 exports.getId = function getId(name, callback) {
-    var client = redis.createClient(6379, '192.168.56.101', {});
-    client.hget("drawings", name, function (err, replies) {
+    redis.hget("drawings", name, function (err, replies) {
         callback(err, replies);
     });
-    client.end();
 };
 
 /**
@@ -59,17 +50,17 @@ exports.getId = function getId(name, callback) {
  * @param data, array of point
  */
 exports.addToDrawing = function addToDrawing(name, data) {
-    var client = redis.createClient(6379, '192.168.56.101', {});
     exports.getId(name, function(err, uid) {
-        client.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify(data));
+        redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify(data));
     });
 };
-
-module.exports = exports;
 
 /*exports.getDrawData = function getDrawData(name) {
     var client = redis.createClient();
     exports.getId(name, function(err, uid) {
-        client.zget();
+        client.zget("drawing"+uid+"/data");
     });
-}*/
+};*/
+
+module.exports = exports;
+
