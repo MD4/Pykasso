@@ -1,11 +1,55 @@
+html {
+    background-color: rgba(218, 219, 234, 0.32);
+}
+
 #main-canvas {
     display: block;
     margin: auto;
-    border: double;
-    cursor: crosshair
+    border: solid 2px;
+    border-radius: 5%;
+    cursor: crosshair;
+    background-color: white;
 }
 
 h4 {
     display: block;
     margin: auto;
+}
+
+#couleurs {
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+#couleurs li {
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+#couleurs li:hover {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#couleurs a.actif {
+    border: 2px solid #000;
+    width: 26px;
+    height: 26px;
+}
+
+#couleurs a {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    text-indent: -4000px;
+    overflow: hidden;
+    border-radius: 50%;
 }

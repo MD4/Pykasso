@@ -2,7 +2,7 @@
 
     Pykasso.painter =
     {
-        fromPoints: function (points) {
+        fromPoints: function (points, color) {
             var startedTmp = false;
             var context = $("#main-canvas")[0].getContext('2d');
             points.forEach(function (point) {
@@ -15,7 +15,7 @@
                 // Sinon je dessine
                 else {
                     context.lineTo(point.x, point.y);
-                    context.strokeStyle = Pykasso.painter.color;
+                    context.strokeStyle = color;
                     context.lineWidth = Pykasso.painter.width_brush;
                     context.stroke();
                 }
@@ -26,6 +26,23 @@
         width_brush: 5,
 
         init: function () {
+
+            $("#couleurs a").each(function () {
+                // Je lui attribut une couleur de fond :
+                $(this).css("background", $(this).attr("data-couleur"));
+
+                // Et au click :
+                $(this).click(function () {
+                    // Je change la couleur du pinceau :
+                    Pykasso.painter.color = $(this).attr("data-couleur");
+
+                    // Et les classes CSS :
+                    $("#couleurs a").removeAttr("class", "");
+                    $(this).attr("class", "actif");
+
+                    return false;
+                });
+            });
 
             // Variables :
             var painting = false;
@@ -55,7 +72,7 @@
                 console.log("up");
                 painting = false;
                 started = false;
-                Pykasso.services.RtmService.draw(points);
+                Pykasso.services.RtmService.draw(points, Pykasso.painter.color);
                 points = [];
             });
 

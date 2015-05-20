@@ -20,11 +20,25 @@
     <script src="app/paint.js"></script>
 </head>
 <body>
-<h4>Mon super dessin</h4>
 
 <canvas id="main-canvas" width="700" height="700">
 
 </canvas>
+
+<ul id="couleurs">
+    <li><a href="#" data-couleur="#000000" class="actif" style="background: rgb(0, 0, 0);">Noir</a></li>
+    <li><a href="#" data-couleur="#ffffff" style="background: rgb(255, 255, 255);">Blanc</a></li>
+    <li><a href="#" data-couleur="#ff0000" style="background: rgb(255, 0, 0);">Rouge</a></li>
+    <li><a href="#" data-couleur="brown" style="background: rgb(165, 42, 42);">Marron</a></li>
+    <li><a href="#" data-couleur="orange" style="background: orange;">Orange</a></li>
+    <li><a href="#" data-couleur="yellow" style="background: yellow;">Jaune</a></li>
+    <li><a href="#" data-couleur="green" style="background: green;">Vert</a></li>
+    <li><a href="#" data-couleur="cyan" style="background: rgb(0, 255, 255);">Cyan</a></li>
+    <li><a href="#" data-couleur="blue" style="background: blue;">Bleu</a></li>
+    <li><a href="#" data-couleur="indigo" style="background: rgb(75, 0, 130);">Indigo</a></li>
+    <li><a href="#" data-couleur="Violet" style="background: rgb(238, 130, 238);">Violet</a></li>
+    <li><a href="#" data-couleur="pink" style="background: rgb(255, 192, 203);">Rose</a></li>
+</ul>
 
 <script>
     Pykasso.app.start();

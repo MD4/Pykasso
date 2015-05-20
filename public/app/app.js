@@ -5,8 +5,12 @@ Pykasso.app = {
 
         $(document).ready(Pykasso.painter.init());
 
-        RtmService.onReceiveDraw(function(draw) {
-            Pykasso.painter.fromPoints(draw);
+        RtmService.onColor(function (color) {
+            Pykasso.painter.color = color;
+        });
+
+        RtmService.onReceiveDraw(function (draw, color) {
+            Pykasso.painter.fromPoints(draw, color);
         });
     }
 };
