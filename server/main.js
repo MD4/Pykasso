@@ -1,17 +1,14 @@
 var express = require('express');
 var app = express();
-
-var server = app.listen(3000, function () {
-
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('Example app listening at http://%s:%s', host, port);
-
-});
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 app.use(express.static('public'));
 
-app.get('/lol', function (req, res) {
-    res.send('Hello World!');
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+
+http.listen(3000, function(){
+    console.log('listening on *:3000');
 });
