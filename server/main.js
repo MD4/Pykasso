@@ -9,7 +9,7 @@ app.use(express.static('public'));
 
 http.listen(3000, function(){
     console.log('listening on *:3000');
-    DrawingService.create("test");
+    DrawingService.create("d1");
 });
 
 var rtmServer = new RtmServer(io);

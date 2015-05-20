@@ -1,3 +1,5 @@
+var DrawingService = require('./services/DrawingService');
+
 var RtmClient = function (socket) {
     console.log('User connected');
     this.socket = socket;
@@ -24,6 +26,7 @@ RtmClient.prototype.onDisconnect = function () {
 };
 
 RtmClient.prototype.onDraw = function (draw) {
+    DrawingService.addToDrawing(this.drawingId, draw);
     this.socket.broadcast.to(this.drawingId).emit('draw', draw, this.color);
 };
 
