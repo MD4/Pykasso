@@ -1,0 +1,21 @@
+{
+  "name": "Pykasso",
+  "version": "0.0.0",
+  "homepage": "https://github.com/MD4/Pykasso",
+  "authors": [
+    "MD4 <m.dequa@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/app/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "express": "~4.12.4",
+    "jquery": "~2.1.4"
+  }
+}
