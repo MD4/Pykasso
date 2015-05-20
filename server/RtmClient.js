@@ -1,6 +1,7 @@
 var RtmClient = function (socket) {
     console.log('User connected');
     this.socket = socket;
+    this.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
     socket.on('choose', this.onChoose.bind(this));
     socket.on('disconnect', this.onDisconnect.bind(this));
@@ -21,7 +22,7 @@ RtmClient.prototype.onDisconnect = function () {
 };
 
 RtmClient.prototype.onDraw = function (draw) {
-    this.socket.broadcast.to(this.drawingId).emit('draw', draw);
+    this.socket.broadcast.to(this.drawingId).emit('draw', draw, this.color);
 };
 
 module.exports = RtmClient;
