@@ -48,9 +48,12 @@ exports.getId = function getId(name, callback) {
  * @param name, drawing name
  * @param data, array of point
  */
-exports.addToDrawing = function addToDrawing(name, data) {
+exports.addToDrawing = function addToDrawing(name, draw, color) {
     exports.getId(name, function(err, uid) {
-        redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify(data));
+        redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify({
+            draw: draw,
+            color: color
+        }));
     });
 };
 

@@ -22,7 +22,8 @@ RtmClient.prototype.onChoose = function (id) {
 
     DrawingService.getDrawData(this.drawingId, function(err, data) {
         data.forEach(function(draw) {
-            this.socket.emit('draw', JSON.parse(draw));
+            draw = JSON.parse(draw)
+            this.socket.emit('draw', draw.draw, draw.color);
         }.bind(this));
     }.bind(this));
 
@@ -33,7 +34,7 @@ RtmClient.prototype.onDisconnect = function () {
 };
 
 RtmClient.prototype.onDraw = function (draw, color) {
-    DrawingService.addToDrawing(this.drawingId, draw);
+    DrawingService.addToDrawing(this.drawingId, draw, color);
     this.socket.broadcast.to(this.drawingId).emit('draw', draw, color);
 };
 
