@@ -1,5 +1,5 @@
 # Pykasso
-A 4-hours shitty collaborative drawing tool
+A 4-hours shitty collaborative drawing tool !
 
 Collaborators
 
