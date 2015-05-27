@@ -15,7 +15,7 @@ var exports = {};
 exports.create = function create(name) {
     var uid = uuid.v1();
     redis.hset("drawings", name, uid, redis.print);
-    redis.hset("drawing"+uid+"/info", "name", name, redis.print);
+    redis.hset("drawing" + uid + ":info", "name", name, redis.print);
 };
 
 /**
@@ -23,11 +23,11 @@ exports.create = function create(name) {
  * @param name
  */
 exports.delete = function remove(name) {
-    exports.getId(name, function(err, uid) {
+    exports.getId(name, function (err, uid) {
         var multi = redis.multi();
         multi.hdel("drawings", name);
-        multi.del("drawing"+uid+"/info");
-        multi.del("drawing"+uid+"/data");
+        multi.del("drawing" + uid + ":info");
+        multi.del("drawing" + uid + ":data");
         multi.exec();
     });
 };
@@ -49,8 +49,8 @@ exports.getId = function getId(name, callback) {
  * @param data, array of point
  */
 exports.addToDrawing = function addToDrawing(name, draw, color) {
-    exports.getId(name, function(err, uid) {
-        redis.zadd("drawing"+uid+"/data", Date.now(), JSON.stringify({
+    exports.getId(name, function (err, uid) {
+        redis.zadd("drawing" + uid + ":data", Date.now(), JSON.stringify({
             draw: draw,
             color: color
         }));
@@ -58,8 +58,8 @@ exports.addToDrawing = function addToDrawing(name, draw, color) {
 };
 
 exports.getDrawData = function getDrawData(name, callback) {
-    exports.getId(name, function(err, uid) {
-        redis.zrevrangebyscore("drawing"+uid+"/data", "+inf", "-inf", function(err, res) {
+    exports.getId(name, function (err, uid) {
+        redis.zrevrangebyscore("drawing" + uid + ":data", "+inf", "-inf", function (err, res) {
             callback(err, res);
         });
     });

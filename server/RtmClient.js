@@ -20,9 +20,9 @@ RtmClient.prototype.onChoose = function (id) {
     this.socket.join(id);
     this.drawingId = id;
 
-    DrawingService.getDrawData(this.drawingId, function(err, data) {
-        data.forEach(function(draw) {
-            draw = JSON.parse(draw)
+    DrawingService.getDrawData(this.drawingId, function (err, data) {
+        data.forEach(function (draw) {
+            draw = JSON.parse(draw);
             this.socket.emit('draw', draw.draw, draw.color);
         }.bind(this));
     }.bind(this));
