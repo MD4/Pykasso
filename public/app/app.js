@@ -1,5 +1,6 @@
 Pykasso.app = {
     start: function(){
+        console.log("Pykasso.app => started");
         var RtmService = Pykasso.services.RtmService;
         RtmService.choose("d1");
 
