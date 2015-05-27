@@ -15,7 +15,7 @@ var exports = {};
 exports.create = function create(name) {
     var uid = uuid.v1();
     redis.hset("drawings", name, uid, redis.print);
-    redis.hset("drawing" + uid + ":info", "name", name, redis.print);
+    redis.hset("drawing:" + uid + ":info", "name", name, redis.print);
 };
 
 /**
